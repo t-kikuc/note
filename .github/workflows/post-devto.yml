@@ -25,10 +25,9 @@ jobs:
           node-version: '20'
 
       - name: Install Dependencies
-        uses: bahmutov/npm-install@v1
-
-      - name: Install dev-to-git
-        run: yarn add dev-to-git
+        run: |
+          npm install
+          yarn add dev-to-git
 
       - name: Post to dev.to
         run: yarn run dev-to-git
