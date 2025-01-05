@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "dev-to-git": "^1.4.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/t-kikuc/note.git"
+  },
+  "license": "MIT"
+} 
