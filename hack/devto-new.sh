@@ -6,7 +6,6 @@
 NAME=$1
 API_KEY=$(cat hack/.env | grep DEV_TO_API_KEY | cut -d '=' -f 2)
 
-pushd devto
 # 1. Create a new article
 id=$(curl -s -X POST -H "Content-Type: application/json" \
   -H "api-key: ${API_KEY}" \
@@ -36,4 +35,3 @@ tags: []
 jq --arg path "./posts/$NAME/index.md" --arg id "$id" '. + [{"relativePathToArticle": $path, "id": $id}]' dev-to-git.json > tmp.json
 mv tmp.json dev-to-git.json
 
-popd
