@@ -20,8 +20,8 @@ if [ "$id" = "null" ] || [ "$id" = "" ]; then
 fi
 
 # 2. create new article dir
-mkdir -p ./posts/$NAME
-mkdir -p ./posts/$NAME/images
+mkdir -p ./devto/$NAME
+mkdir -p ./devto/$NAME/assets
 
 # 3. create new article file
 echo "---
@@ -29,9 +29,9 @@ title: \"${NAME}\"
 published: false
 description: \"\"
 tags: []
----" > ./posts/$NAME/index.md
+---" > ./devto/$NAME/index.md
 
 # 4. add new article to dev-to-git.json.
-jq --arg path "./posts/$NAME/index.md" --arg id "$id" '. + [{"relativePathToArticle": $path, "id": $id}]' dev-to-git.json > tmp.json
+jq --arg path "./devto/$NAME/index.md" --arg id "$id" '. + [{"relativePathToArticle": $path, "id": $id}]' dev-to-git.json > tmp.json
 mv tmp.json dev-to-git.json
 
