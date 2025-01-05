@@ -12,9 +12,6 @@ jobs:
   post:
     name: Post
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./devto
     steps:
       - name: Checkout
         uses: actions/checkout@v4
