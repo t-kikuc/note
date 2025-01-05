@@ -8,7 +8,7 @@ tags: ["tag1", "tag2"]
 
 ## This is a test post
 
-foo.
+foo. from t-kikuc/note
 
 ## Image test
 
