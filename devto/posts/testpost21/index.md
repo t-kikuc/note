@@ -12,14 +12,14 @@ foo.
 
 ## Image test
 
-### ./images/lattice-console.png
-![lattice-console10](./images/lattice-console.png)
+### ./assets/lattice-console.png
+![lattice-console10](./assets/lattice-console.png)
 
-### images/lattice-console.png
-![lattice-console20](images/lattice-console.png)
+### assets/lattice-console.png
+![lattice-console20](assets/lattice-console.png)
 
-### /devto/images/roadmap-all.png
-![roadmap-all40](/devto/images/roadmap-all.png)
+### /devto/assets/roadmap-all.png
+![roadmap-all40](/devto/assets/roadmap-all.png)
 <!-- ![lattice-console41](images/roadmap-all.png) -->
 
 ### /images/ecs-coming-soon/lattice-console.png
