@@ -1,6 +1,6 @@
 ---
-title: "ecstop: a CLI tool to stop ECS resources easily"
-published: false
+title: "ecstop: My CLI Tool to Stop ECS Resources Easily"
+published: true
 description: "Introduction of ecstop, my CLI tool."
 tags: ["AWS", "ECS", "go", "OSS"]
 ---
