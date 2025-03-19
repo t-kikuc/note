@@ -42,8 +42,6 @@ ECS offers three [deployment types](https://docs.aws.amazon.com/AmazonECS/latest
 - `EXTERNAL` offers more flexibility despite its complexity
   - Examples: Custom deployment validation, rollback strategies
 
-[^1]:https://qiita.com/takahash_3/items/793480920c0d283340c0
-
 ## 2. What is TaskSet?
 
 TaskSet is a concept that sits between ECS Service and Task, grouping Tasks together.
@@ -540,9 +538,7 @@ Two hypotheses for External Deployment and TaskSet's low recognition:
 1. Minimal console presence
 ![](./assets/console-notfound.png)
 *Service creation screen - "External Deployment" not visible*
-   - Though `CODE_DEPLOY` quietly mentions it
-    ![](./assets/codedeploy-taskset.png)
-    *CodeDeploy deployment settings*
+
 1. Satisfaction with `ECS`/`CODE_DEPLOY` deployment types (*but are they truly sufficient?*)
 
 ### Note 2: Do TaskSets Exist in `ECS` Deployment Type?
@@ -552,12 +548,8 @@ Two hypotheses for External Deployment and TaskSet's low recognition:
 Two hints suggest TaskSet-like behavior:
 
 1. Task's `StartedBy` format matches External Deployment's `ecs-svc/xxx`
-  ![](./assets/task-startedby.png)
-  *Task "Started By"*
    - TaskSet IDs use `ecs-svc/xxx` format, and Tasks within TaskSets show this as `StartedBy`
 1. The `xxx` in `ecs-svc/xxx` matches [service revision](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-revision.html) ID
-  ![](./assets/service-revision.png)
-  *Service revision*
 
 Service revision mechanism seems similar to TaskSets but has different ARN format.
 
@@ -576,6 +568,5 @@ Service Connect and VPC Lattice support would be welcome additions.
 
 While migrating to External Deployment is challenging, PipeCD will soon support other deployment types through "plugins".
 For plugin details, see:
-https://zenn.dev/cadp/articles/pipecd-plugin-intro
 
-A convenient command-line tool for External Deployment testing is under personal development and will be released soon.
+https://pipecd.dev/blog/2024/11/28/overview-of-the-plan-for-pluginnable-pipecd/
