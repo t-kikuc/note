@@ -144,6 +144,7 @@ There are only five APIs for TaskSet operations. Most operations involve managin
    - Some Primary TaskSet settings propagate to Service (`launchType`, `taskDefinition`, etc.)
 
      - Before Primary TaskSet exists:
+
          ```json
          $ aws ecs describe-services --cluster xxx --services yyy-service
          {
@@ -158,7 +159,6 @@ There are only five APIs for TaskSet operations. Most operations involve managin
                              "taskDefinition": "arn:aws:ecs:ap-northeast-1:<account>:task-definition/zzz-taskdef:3",
                              "launchType": "FARGATE",
                              ...
-
          ```
 
      - After `UpdateServicePrimaryTaskSet`:
