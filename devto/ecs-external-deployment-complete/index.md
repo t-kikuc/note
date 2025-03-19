@@ -1,7 +1,7 @@
 ---
-title: "The Comprehensive Guide of ECS External Deployment & TaskSet"
-published: false
-description: ""
+title: "ECS External Deployment & TaskSet - Complete Guide"
+published: true
+description: "Dive deep into ECS External Deployment and TaskSet - lesser-known but powerful features enabling advanced deployment strategies. Learn concepts, practical usage, and real-world examples with PipeCD."
 tags: ["AWS","ECS", "PipeCD"]
 ---
 
