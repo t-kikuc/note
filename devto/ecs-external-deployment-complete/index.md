@@ -48,7 +48,7 @@ ECS offers three [deployment types](https://docs.aws.amazon.com/AmazonECS/latest
 
 TaskSet is a concept that sits between ECS Service and Task, grouping Tasks together.
 
-![](/images/ecs-external/overview1.drawio.png)
+![](assets//overview1.drawio.png)
 
 TaskSets only appear when using CodeDeploy or External deployment types, handling Task scheduling and scaling instead of the Service.
 
@@ -120,7 +120,7 @@ TaskSets enable Canary releases and Blue/Green deployments because you can **spe
 
 Control traffic distribution between TargetGroups at the ALB level.
 
-![](/images/ecs-external/overview2.drawio.png)
+![](assets//overview2.drawio.png)
 *Canary release and Blue/Green deployment using TaskSets*
 
 ### TaskSet Operations
@@ -237,7 +237,7 @@ $ aws ecs create-task-set \
 --scale unit=PERCENT,value=100
 ```
 
-![](/images/ecs-external/canary-listener-v1.drawio.png)
+![](assets//canary-listener-v1.drawio.png)
 *After prerequisites*
 
 *Note: `UpdateServicePrimaryTask` is optional here*
@@ -261,7 +261,7 @@ $ aws ecs create-task-set \
 
 No traffic flows to v2 TaskSet yet as its TargetGroup weight is 0.
 
-![](/images/ecs-external/canary-listener-v2.drawio.png)
+![](assets//canary-listener-v2.drawio.png)
 *Creating Canary TaskSet*
 
 #### 2. Route Traffic to Canary
@@ -288,7 +288,7 @@ $ aws elbv2 modify-rule \
 }]' 
 ```
 
-![](/images/ecs-external/canary-listener-v2-traffic.drawio.png)
+![](assets//canary-listener-v2-traffic.drawio.png)
 *Starting traffic flow to Canary*
 
 Use [`ModifyListener`](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_ModifyListener.html) for default listener rules.
@@ -320,7 +320,7 @@ $ aws elbv2 modify-rule \
 }]' 
 ```
 
-![](/images/ecs-external/canary-listener-v2-all.drawio.png)
+![](assets//canary-listener-v2-all.drawio.png)
 *Routing 100% traffic to Canary*
 
 #### 4. Promote Canary TaskSet to Primary
@@ -356,7 +356,7 @@ $ aws ecs delete-task-set \
 --task-set <ecs-svc/xxx> # Old TaskSet ID from 4.1
 ```
 
-![](/images/ecs-external/canary-listener-end.drawio.png)
+![](assets//canary-listener-end.drawio.png)
 *After deployment completion*
 
 ### Rollback Scenarios
@@ -386,20 +386,20 @@ This is the approach PipeCD adopts.
 ### Deployment Flow
 
 #### 0. Initial State
-![](/images/ecs-external/canary-3-tasksets-0.drawio.png)
+![](assets//canary-3-tasksets-0.drawio.png)
 
 #### 1. Create Canary
 
 Use `CreateTaskSet` and `elbv2::ModifyRule`.
 Canary TaskSet's `scale` can be less than 100%.
 
-![](/images/ecs-external/canary-3-tasksets-1.drawio.png)
+![](assets//canary-3-tasksets-1.drawio.png)
 
 #### 2. If Successful, Create New TaskSet
 
 Use `CreateTaskSet` with TargetGroup A and TaskDefinition v2.
 
-![](/images/ecs-external/canary-3-tasksets-2.drawio.png)
+![](assets//canary-3-tasksets-2.drawio.png)
 
 Traffic now flows to the third TaskSet.
 
@@ -407,7 +407,7 @@ Traffic now flows to the third TaskSet.
 
 Use `UpdateServicePrimaryTaskSet`, `elbv2::ModifyRule`, and `DeleteTaskSet`.
 
-![](/images/ecs-external/canary-3-tasksets-3.drawio.png)
+![](assets//canary-3-tasksets-3.drawio.png)
 
 Back to initial state configuration.
 Next deployment starts with TargetGroup A pointing to latest version.
@@ -449,7 +449,7 @@ External Deployment can be complex (especially with rollbacks).
 PipeCD implements Method B Canary releases with simple pipeline definitions.
 Handles rollbacks automatically.
 
-```yaml:app.pipecd.yaml
+```yaml
   pipeline:
     stages:
       # 1. Create Canary TaskSet
@@ -515,7 +515,7 @@ Several important points to consider when using External Deployment.
 - "Deployment History" remains unchanged for External Deployment
 
 - Reference: PipeCD visualizes Service/TaskSet/Task states in UI [^3]
-  ![](/images/ecs-external/pipecd-ui.png)
+  ![](assets//pipecd-ui.png)
   *PipeCD UI (during Canary deployment)*
 
 [^3]: https://pipecd.dev/docs/user-guide/managing-application/application-live-state/
@@ -538,10 +538,10 @@ Several important points to consider when using External Deployment.
 Two hypotheses for External Deployment and TaskSet's low recognition:
 
 1. Minimal console presence
-![](/images/ecs-external/console-notfound.png)
+![](assets//console-notfound.png)
 *Service creation screen - "External Deployment" not visible*
    - Though `CODE_DEPLOY` quietly mentions it
-    ![](/images/ecs-external/codedeploy-taskset.png)
+    ![](assets//codedeploy-taskset.png)
     *CodeDeploy deployment settings*
 1. Satisfaction with `ECS`/`CODE_DEPLOY` deployment types (*but are they truly sufficient?*)
 
@@ -552,11 +552,11 @@ Two hypotheses for External Deployment and TaskSet's low recognition:
 Two hints suggest TaskSet-like behavior:
 
 1. Task's `StartedBy` format matches External Deployment's `ecs-svc/xxx`
-  ![](/images/ecs-external/task-startedby.png)
+  ![](assets//task-startedby.png)
   *Task "Started By"*
    - TaskSet IDs use `ecs-svc/xxx` format, and Tasks within TaskSets show this as `StartedBy`
 1. The `xxx` in `ecs-svc/xxx` matches [service revision](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-revision.html) ID
-  ![](/images/ecs-external/service-revision.png)
+  ![](assets//service-revision.png)
   *Service revision*
 
 Service revision mechanism seems similar to TaskSets but has different ARN format.
