@@ -50,14 +50,6 @@ TaskSet is a concept that sits between ECS Service and Task, grouping Tasks toge
 
 ![](/images/ecs-external/overview1.drawio.png)
 
-:::message
-**[Recap] ECS Core Concepts**
-- **Cluster**: Logical grouping of Services and Tasks
-- **Service**: Handles Task scheduling and scaling
-- **Task**: Execution unit running one or more containers based on Task definition
-- **TaskDefinition**: Container launch configuration
-:::
-
 TaskSets only appear when using CodeDeploy or External deployment types, handling Task scheduling and scaling instead of the Service.
 
 You won't encounter TaskSets when using rolling updates or running [Standalone Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/standalone-tasks.html).
@@ -198,12 +190,7 @@ There are multiple approaches to External Deployment, including rollback strateg
 Here are two examples.
 For more details, refer to [this documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-external.html#deployment-type-external-workflow).
 
-:::message
-This article focuses on Services behind ALB.
-
-For Canary deployments with Service Discovery, see:
-https://qiita.com/t-kikuc/items/25bd032606d878229ed7
-:::
+**Note:** This article focuses on Services behind ALB.
 
 ## Method A: Promoting Canary to Primary
 
