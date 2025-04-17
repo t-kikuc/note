@@ -38,7 +38,7 @@ Popular GitOps tools include [ArgoCD](https://argo-cd.readthedocs.io/), [FluxCD]
 
 Here's a simple GitOps architecture:
 
-![](assets/before.drawio.png)
+![](./assets/before.drawio.png)
 
 The GitOps tool (like FluxCD) continuously monitors the Git repository and deploys changes to the production environment when detected.
 
@@ -46,7 +46,7 @@ The GitOps tool (like FluxCD) continuously monitors the Git repository and deplo
 
 Gitless GitOps is a delivery method **driven by OCI (Open Container Initiative) artifacts stored in container registries** instead of Git repositories.
 
-![](assets/after.drawio.png)
+![](./assets/after.drawio.png)
 
 CI creates and pushes OCI artifacts, while the GitOps tool focuses solely on applying them.
 Continuous reconciliation is based on OCI artifacts rather than Git.
@@ -80,7 +80,7 @@ The underlying context for these benefits seems to be that "Git itself wasn't de
 
 This is the most emphasized benefit.
 The [KubeCon session](https://sched.co/1tx8R) included the message "Configuration is Part of the Supply Chain".
-![](assets/config-is-supplychain.jpg)
+![](./assets/config-is-supplychain.jpg)
 
 Gitless enables the following, with OCI ecosystem integration being a major advantage:
 
@@ -137,10 +137,10 @@ In Gitless, these responsibilities shift from GitOps tools to CI. This eliminate
 Here's the Before/After of the overall CI/CD pipeline including image updates:
 
 _Current architecture:_
-![](assets/cicd-whole-before.drawio.png)
+![](./assets/cicd-whole-before.drawio.png)
 
 _Gitless architecture:_
-![](assets/cicd-whole-after.drawio.png)
+![](./assets/cicd-whole-after.drawio.png)
 
 ### Potentially Good for Edge Environments?
 
