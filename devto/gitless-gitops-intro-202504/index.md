@@ -1,11 +1,13 @@
 ---
 title: "Introduction to Gitless GitOps: A New OCI-Centric and Secure Architecture"
-published: false
+published: true
 description: "Exploring Gitless GitOps, which is driven by OCI registries instead of Git, offering enhanced security and simplified operations."
 tags: ["GitOps", "Flux", "ArgoCD", "PipeCD"]
 ---
 
 _This article is translated and edited from [my own article in Japanese](https://zenn.dev/cadp/articles/gitless-gitops-intro)._
+
+## Introduction
 
 I learned about **Gitless GitOps** at [KubeCon EU 2025](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/). As a developer of a GitOps tool ([PipeCD](https://pipecd.dev/)), I was intrigued but found limited information available, so I decided to investigate.
 
@@ -179,4 +181,4 @@ However, Gitless could be powerful in industries and countries requiring strict 
 
 The momentum of Gitless likely depends on the strictness of software supply chain security regulations and the emergence of large-scale GitOps performance case studies.
 
-_While writing this article, [unsettling news about CVE program continuity](https://www.thecvefoundation.org/) emerged, causing some concern_
+_While writing this article, [unsettling news about CVE program continuity](https://www.thecvefoundation.org/) emerged..._
