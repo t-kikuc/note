@@ -1,7 +1,7 @@
 ---
-title: "Introduction to Gitless GitOps: A New OCI-Centric and Secure Architecture"
+title: "Introduction to Gitless GitOps"
 published: false
-description: "Exploring Gitless GitOps, which is driven by OCI registries instead of Git, offering enhanced security and simplified operations."
+description: ""
 tags: ["GitOps", "Flux", "ArgoCD", "PipeCD", "SupplyChainSecurity"]
 ---
 
