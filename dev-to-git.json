@@ -10,5 +10,9 @@
   {
     "relativePathToArticle": "./devto/ecs-external-deployment-complete/index.md",
     "id": "2342973"
+  },
+  {
+    "relativePathToArticle": "./devto/gitless-gitops-intro/index.md",
+    "id": "2412518"
   }
 ]
