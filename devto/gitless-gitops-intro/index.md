@@ -5,6 +5,8 @@ description: "Exploring Gitless GitOps: A new GitOps architecture which is drive
 tags: ["GitOps", "Flux", "ArgoCD", "PipeCD", "SupplyChainSecurity"]
 ---
 
+_This article is translated and edited from [my own article in Japanese](https://zenn.dev/cadp/articles/gitless-gitops-intro)._
+
 I learned about **Gitless GitOps** at [KubeCon EU 2025](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/). As a developer of a GitOps tool ([PipeCD](https://pipecd.dev/)), I was intrigued but found limited information available, so I decided to investigate.
 
 🧐 "_GitOps without Git? How does that work?_"
@@ -13,15 +15,15 @@ You can read the details in this report. Gitless is introduced as part of D2, Fl
 
 https://fluxcd.io/guides/d2-architecture-reference/
 
-# Key Points
+## Key Points
 
 - Gitless GitOps is a new GitOps architecture that **centers on OCI Registry instead of Git**
 - While it's "Gitless" because GitOps tools don't access Git, the fundamental principles remain largely unchanged
 - The main benefit is **enhanced security in the supply chain**
 
-# Review: Current GitOps
+## Review: Current GitOps
 
-## What is GitOps?
+### What is GitOps?
 
 GitOps is a delivery method that "keeps the production environment in sync with Git configuration."
 It follows these [4 principles](https://opengitops.dev/):
@@ -32,60 +34,49 @@ It follows these [4 principles](https://opengitops.dev/):
 
 Popular GitOps tools include [ArgoCD](https://argo-cd.readthedocs.io/), [FluxCD](https://fluxcd.io/), and [PipeCD](https://pipecd.dev/).
 
-There's also a concept called CIOps. This article explains the differences between GitOps and CIOps well:
-
-https://blog.inductor.me/entry/2021/09/24/015402
-
-## Typical GitOps Architecture
+### Simple GitOps Architecture
 
 Here's a simple GitOps architecture:
 
 ![](assets/before.drawio.png)
-_Basic structure of traditional GitOps_
 
 The GitOps tool (like FluxCD) continuously monitors the Git repository and deploys changes to the production environment when detected.
 
-# Overview of Gitless GitOps
+## Overview of Gitless GitOps
 
 Gitless GitOps is a delivery method **driven by OCI (Open Container Initiative) artifacts stored in container registries** instead of Git repositories.
 
 ![](assets/after.drawio.png)
-_Basic structure of Gitless GitOps_
 
 CI creates and pushes OCI artifacts, while the GitOps tool focuses solely on applying them.
 Continuous reconciliation is based on OCI artifacts rather than Git.
 
 Note that Git remains the Single Source of Truth in Gitless, but mechanisms to maintain consistency between Git and OCI registries through write control are necessary.
 
-:::message
-This is unrelated to the tool called "Gitless":
-https://gitless.com/
-:::
+This is unrelated to the tool called "Gitless": https://gitless.com/
 
-## Side Note: When Did It Emerge?
+### Side Note: When Did It Emerge?
 
-From my research, the concept and term "Gitless" appears to have been led by FluxCD developers within the last 3 years.
+As far as I researched, the concept and term "Gitless" appears to have been led by FluxCD developers within the last 3 years.
 
-- 2022: Flux adds OCI support (`OCIRepository` introduced)
+- 2022: Flux added OCI support (`OCIRepository` introduced)
+  - https://fluxcd.io/blog/2022/10/cncf-talk-flux-oci/
 
-https://fluxcd.io/blog/2022/10/cncf-talk-flux-oci/
+- 2024: The term "Gitless GitOps" was already introduced
 
-- 2024: The term "Gitless GitOps" is introduced
+  - https://www.heise.de/en/background/Gitless-GitOps-The-path-to-a-secure-app-environment-with-Flux-and-OCI-9811957.html
 
-https://www.heise.de/en/background/Gitless-GitOps-The-path-to-a-secure-app-environment-with-Flux-and-OCI-9811957.html
-
-- April 2025: ControlPlane releases a reference architecture based on Gitless GitOps
+- April 2025: [ControlPlane](https://control-plane.io/) released a reference architecture based on Gitless GitOps
   - ControlPlane is a company providing enterprise solutions for FluxCD and other tools
+  - https://control-plane.io/posts/d2-reference-architecture-guide/
 
-https://control-plane.io/posts/d2-reference-architecture-guide/
+There seems to be variation in spelling between "Gitless" and "Git-less".
 
-Incidentally, there seems to be variation in spelling between "Gitless" and "Git-less".
-
-# Benefits of Gitless
+## Benefits of Gitless
 
 The underlying context for these benefits seems to be that "Git itself wasn't designed for GitOps, and OCI registries are more suitable for cloud-native environments."
 
-## Software Supply Chain Security and Compliance
+### Software Supply Chain Security and Compliance
 
 This is the most emphasized benefit.
 The [KubeCon session](https://sched.co/1tx8R) included the message "Configuration is Part of the Supply Chain".
@@ -104,7 +95,7 @@ The increased focus on such measures is driven by regulations including:
 - US: [EO14028 "Executive Order on Improving the Nation's Cybersecurity"](https://www.nist.gov/itl/executive-order-14028-improving-nations-cybersecurity) issued in 2021
 - Europe: [Cyber Resilience Act (CRA)](https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act) enacted in 2024
 
-## No Git Access Required
+### No Git Access Required
 
 Eliminating git pull means network access, authentication, and permissions for Git are no longer needed by GitOps tools.
 As [mentioned later](#simplification-of-gitops-tools), write permissions to Git also become unnecessary.
@@ -114,15 +105,17 @@ As [mentioned later](#simplification-of-gitops-tools), write permissions to Git 
 - Likely improves Git access permission management efficiency
   - Prevents scenarios like "Strict Git access control inadvertently restricted GitOps tool permissions, breaking Image Updater functionality"
 
-## Performance: Potential for Lighter Operations
+### Performance
 
 Gitless focuses on pulling OCI artifacts instead of git pull, potentially leading to lighter and faster operations.
 
-Current GitOps can face performance challenges with large manifest repositories or frequent updates from trunk-based development. This is because GitOps tools frequently perform git pull and create local copies of pulled repositories. Various GitOps tools implement performance tuning for git operations, but some aspects remain challenging to optimize, such as identifying which manifests are linked to applications due to templating. Here's an example from PipeCD:
+Current GitOps can face performance challenges with large manifest repositories or frequent updates from trunk-based development. This is because GitOps tools frequently perform git pull and create local copies of pulled repositories.
+
+Various GitOps tools implement performance tuning for git operations, but some aspects remain challenging to optimize, such as identifying which manifests are linked to applications due to templating. Here's an example from PipeCD:
 
 https://pipecd.dev/blog/2024/09/11/performance-improvement-in-git-operations-on-pipecd-v0.48.9/
 
-## Simplification of GitOps Tools
+### Simplification of GitOps Tools
 
 While CI's role expands, the GitOps tool's responsibilities are reduced and simplified. GitOps tools focus solely on "deploying OCI artifacts."
 
@@ -143,30 +136,30 @@ In Gitless, these responsibilities shift from GitOps tools to CI. This eliminate
 
 Here's the Before/After of the overall CI/CD pipeline including image updates:
 
+_Current architecture:_
 ![](assets/cicd-whole-before.drawio.png)
-_Current architecture_
 
+_Gitless architecture:_
 ![](assets/cicd-whole-after.drawio.png)
-_Gitless architecture_
 
-## Potentially Strong for Edge Environments?
+### Potentially Good for Edge Environments?
 
 While not mentioned in ControlPlane's report, some suggest that replicating OCI repositories across locations could enable fast, stable deployments in edge environments.
 
 https://itnext.io/advantages-of-storing-configuration-in-container-registries-rather-than-git-b4266dc0c79f
 
-# What's Needed to Migrate to Gitless?
+## What's Needed to Migrate to Gitless?
 
 Here are some necessary tasks for migrating to Gitless. Both GitOps tool users and developers need to make adjustments.
 
-## User-side Tasks
+### User-side Tasks
 
 - Reflect application image pushes in the manifest repository
 - Create, sign, and push OCI artifacts from the manifest repository
 - Modify GitOps tool configuration to monitor OCI artifacts instead of Git
   - Git access permissions and network access for GitOps tools can be removed
 
-## Developer-side Tasks (Already Implemented in Flux)
+### Developer-side Tasks (Already Implemented in Flux)
 
 - Support OCI registry monitoring, retrieval, and signature verification
   - For Flux, the main task was adding [`OCIRepository`](https://fluxcd.io/flux/components/source/ocirepositories/) to [SourceController](https://fluxcd.io/flux/components/source/), which appears to be cleanly implemented
@@ -175,13 +168,13 @@ Here are some necessary tasks for migrating to Gitless. Both GitOps tool users a
 
 ArgoCD is currently [working on implementation](https://github.com/argoproj/argo-cd/issues/17564), while PipeCD hasn't started yet.
 
-For implementation, the OCI artifact manipulation client tool [ORAS](https://oras.land/) (CNCF Sandbox project) seems useful. [Flux appears to use oras-go](https://github.com/fluxcd/source-controller/blob/v1.5.0/internal/oci/notation/notation.go).
+For implementation, the OCI artifact manipulation client tool [ORAS](https://oras.land/) (CNCF Sandbox project) seems useful. [Flux uses oras-go](https://github.com/fluxcd/source-controller/blob/v1.5.0/internal/oci/notation/notation.go).
 
-# Conclusion
+## Conclusion
 
 FluxCD's pioneering presence is impressive.
 
-Should everyone adopt Gitless? "Not everyone at this point" seems to be the answer. While GitOps tools currently handle many tasks, Gitless requires additional CI setup.
+Should everyone adopt Gitless? "Not everyone at this point" is my answer. While GitOps tools currently handle many tasks, Gitless requires additional CI setup.
 However, Gitless could be powerful in industries and countries requiring strict security and compliance.
 
 The momentum of Gitless likely depends on the strictness of software supply chain security regulations and the emergence of large-scale GitOps performance case studies.
