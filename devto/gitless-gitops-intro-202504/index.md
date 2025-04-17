@@ -15,7 +15,7 @@ I learned about **Gitless GitOps** at [KubeCon EU 2025](https://events.linuxfoun
 
 You can read the details in this report. Gitless is introduced as part of D2, Flux's reference architecture, so you don't need to read the entire document.
 
-https://fluxcd.io/guides/d2-architecture-reference/
+https://fluxcd.control-plane.io/guides/d2-architecture-reference/
 
 ## Key Points
 
