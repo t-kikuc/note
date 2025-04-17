@@ -9,7 +9,7 @@ _This article is translated and edited from [my own article in Japanese](https:/
 
 I learned about **Gitless GitOps** at [KubeCon EU 2025](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/). As a developer of a GitOps tool ([PipeCD](https://pipecd.dev/)), I was intrigued but found limited information available, so I decided to investigate.
 
-🧐 "_GitOps without Git? How does that work?_"
+"_GitOps without Git? How does that work?_"
 
 You can read the details in this report. Gitless is introduced as part of D2, Flux's reference architecture, so you don't need to read the entire document.
 
