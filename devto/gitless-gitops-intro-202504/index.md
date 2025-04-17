@@ -170,7 +170,9 @@ Here are some necessary tasks for migrating to Gitless. Both GitOps tool users a
 
 ArgoCD is currently [working on implementation](https://github.com/argoproj/argo-cd/issues/17564), while PipeCD hasn't started yet.
 
-For implementation, the OCI artifact manipulation client tool [ORAS](https://oras.land/) (CNCF Sandbox project) seems useful. [Flux uses oras-go](https://github.com/fluxcd/source-controller/blob/v1.5.0/internal/oci/notation/notation.go).
+For implementation, the OCI artifact manipulation client tool [ORAS](https://oras.land/) (CNCF Sandbox project) seems useful. ~~[Flux uses oras-go](https://github.com/fluxcd/source-controller/blob/v1.5.0/internal/oci/notation/notation.go).~~
+
+[2025-04-17 edited] Flux implements their own OCI package here: https://github.com/fluxcd/pkg/tree/main/oci
 
 ## Conclusion
 
