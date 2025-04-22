@@ -187,7 +187,7 @@ It's scheduled for deprecation and is generally powerful except for its complexi
   * Of course, larger sizes may be needed depending on traffic
   * May be cost-prohibitive with many tasks
 
-[^2]:Minimum 256CPU(=0.25vCPU) and 64MiB additional resources per task are recommended for sidecars. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect-concepts-deploy.html#service-connect-concepts-proxy
+[^2]: Minimum 256CPU(=0.25vCPU) and 64MiB additional resources per task are recommended for sidecars. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect-concepts-deploy.html#service-connect-concepts-proxy
 
 ## Observability🔭
 
