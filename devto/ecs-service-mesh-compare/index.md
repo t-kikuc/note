@@ -231,3 +231,25 @@ https://aws.amazon.com/about-aws/whats-new/2020/11/aws-app-mesh-introduces-circu
   * However, with native ECS integration, only `ECS` deployment type can be selected
 * Service Discovery supports all deployment types but lacks flexible routing control, making Canary difficult
 * Service Connect can only use `ECS` deployment type, limiting deployment flexibility
+
+## Connection Breadth🐙
+
+|                              | ALB                                | 👑VPC Lattice  | ECS Service Discovery | ECS Service Connect | App Mesh    |
+| ---------------------------- | ---------------------------------- | --------------- | --------------------- | ------------------- | ----------- |
+| Name Resolution from non-ECS | 👍Possible                        | 👍Possible     | 👍Possible           | 👿Not possible     | 👍Possible |
+| Cross-VPC                    | 👍Possible (requires VPC Peering) | 👍👍Specialty | 👿Not possible       | 👍Possible         | 👍Possible |
+| Cross-Account                | 👍Possible (requires VPC Peering) | 👍👍Specialty | 👿Not possible       | 👿Not possible     | 👍Possible |
+
+* **This is VPC Lattice's identity and its strongest area**
+* ALB is a regular VPC resource, requiring VPC Peering etc. for cross-VPC/account communication
+* Service Discovery cannot cross VPCs or accounts, but this helps maintain its simplicity
+* Service Connect is ECS-specific and most limited
+  * A separate method is needed for "initial entry point from outside to ECS"
+  * Cross-account communication might be supported in the future
+    https://github.com/aws/containers-roadmap/issues/2148
+
+# Conclusion
+
+Considering costs and complexity, "reducing ECS interservice communication in the first place" might also be an option.
+
+I'll continue to watch the growth of VPC Lattice and Service Connect.
