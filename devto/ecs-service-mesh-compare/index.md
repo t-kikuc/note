@@ -9,7 +9,7 @@ _This article translated from [my own article](https://zenn.dev/cadp/articles/ec
 
 This article compares five options for ECS service-to-service communication: **ALB, VPC Lattice, ECS Service Discovery, ECS Service Connect, and App Mesh (scheduled for deprecation)**.
 
-Following the [App Mesh deprecation announcement](https://aws.amazon.com/jp/blogs/containers/migrating-from-aws-app-mesh-to-amazon-ecs-service-connect/) and VPC Lattice enhancements at re:Invent 2024 ([ECS native integration](https://aws.amazon.com/jp/about-aws/whats-new/2024/11/amazon-vpc-lattice-elastic-container-service/), [TCP support](https://aws.amazon.com/jp/about-aws/whats-new/2024/12/vpc-lattice-tcp-vpc-resources/)), I wanted to organize the future landscape of ECS interservice communication.
+Following the [App Mesh deprecation announcement](https://aws.amazon.com/blogs/containers/migrating-from-aws-app-mesh-to-amazon-ecs-service-connect/) and VPC Lattice enhancements at re:Invent 2024 ([ECS native integration](https://aws.amazon.com/jp/about-aws/whats-new/2024/11/amazon-vpc-lattice-elastic-container-service/), [TCP support](https://aws.amazon.com/about-aws/whats-new/2024/12/vpc-lattice-tcp-vpc-resources/)), I wanted to organize the future landscape of ECS interservice communication.
 
 _This article is based on specifications as of December 18, 2024._
 
@@ -45,7 +45,7 @@ Here are some example selection criteria:
 * "I want to connect ECS services with high reliability and observability. Communication with non-ECS services is minimal"
     -> **Service Connect**
 * "I have many microservices and strong requirements for reliability and observability. Need to connect non-ECS services too"
-    -> **App Mesh** (Scheduled for deprecation, so consider VPC Lattice or Service Connect+)
+    -> **App Mesh** (Scheduled for deprecation, so consider VPC Lattice or Service Connect)
 
 # What is ECS Interservice Communication?
 
@@ -112,7 +112,7 @@ As [discussed later](#cost-case-by-case), there's a time-based charge per Lattic
 * IAM authentication can be used to restrict communication sources.
   * https://docs.aws.amazon.com/vpc-lattice/latest/ug/auth-policies.html
 * TCP support allows access to DBs etc. (though expensive)
-  * https://aws.amazon.com/jp/about-aws/whats-new/2024/12/vpc-lattice-tcp-vpc-resources/
+  * https://aws.amazon.com/about-aws/whats-new/2024/12/vpc-lattice-tcp-vpc-resources/
 
 ## 3. ECS Service Discovery
 
@@ -152,8 +152,8 @@ While this might be challenging due to architectural and conceptual reasons, if 
 App Mesh is a feature-rich service mesh service consisting of [1]managed Envoy control plane and [2]Envoy sidecar containers.
 
 It's announced to be deprecated by September 30, 2026. Two migration paths are recommended:
-* [Migration to Service Connect](https://aws.amazon.com/jp/blogs/containers/migrating-from-aws-app-mesh-to-amazon-ecs-service-connect/)
-* [Migration to VPC Lattice](https://aws.amazon.com/jp/blogs/containers/migrating-from-aws-app-mesh-to-amazon-vpc-lattice/)
+* [Migration to Service Connect](https://aws.amazon.com/blogs/containers/migrating-from-aws-app-mesh-to-amazon-ecs-service-connect/)
+* [Migration to VPC Lattice](https://aws.amazon.com/blogs/containers/migrating-from-aws-app-mesh-to-amazon-vpc-lattice/)
 
 ### Connection Method
 
@@ -183,7 +183,7 @@ It's scheduled for deprecation and is generally powerful except for its complexi
   * Of course, larger sizes may be needed depending on traffic
   * May be cost-prohibitive with many tasks
 
-[^2]:Minimum 256CPU(=0.25vCPU) and 64MiB additional resources per task are recommended for sidecars. https://docs.aws.amazon.com/ja_jp/AmazonECS/latest/developerguide/service-connect-concepts-deploy.html#service-connect-concepts-proxy
+[^2]:Minimum 256CPU(=0.25vCPU) and 64MiB additional resources per task are recommended for sidecars. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect-concepts-deploy.html#service-connect-concepts-proxy
 
 ## Observability🔭
 
