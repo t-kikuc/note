@@ -55,7 +55,7 @@ Here are some example selection criteria:
 
 It refers to communication between ECS services.
 
-![](assets/whats-interconnect.drawio.png)
+![](./assets/whats-interconnect.drawio.png)
 
 It's not just about "how to find the access target" but also includes considerations like "what to do if the target is down" and "how to observe the communication".
 
@@ -72,10 +72,10 @@ Its main strengths are being the most "mature" with abundant information and the
 
 Create an ALB for service-to-service communication and access it using its domain name.
 
-![](assets/alb.drawio.png)
+![](./assets/alb.drawio.png)
 
 You can set multiple path-based routing rules on the ALB to avoid creating many ALBs.
-![](assets/alb-path-routing.drawio.png)
+![](./assets/alb-path-routing.drawio.png)
 _Example: `/web` routes to service-web, `/app` routes to service-app_
 
 ## 2. VPC Lattice
@@ -88,7 +88,7 @@ It can connect EC2, EKS, and Lambda, with cross-VPC and cross-account communicat
 Access using the Lattice Service domain name + port,
 which routes to ECS services associated with the Lattice Target Group defined in the Listener.
 
-![](assets/lattice.drawio.png)
+![](./assets/lattice.drawio.png)
 _ECS Service Integration via VPC Lattice_
 
 * Lattice Service Network: Logical collection of Lattice Services
@@ -98,14 +98,14 @@ _ECS Service Integration via VPC Lattice_
 #### Before Native ECS Integration
 Previously, ALB was required in front of ECS, but this became unnecessary with the [November 18, 2024 update](https://aws.amazon.com/about-aws/whats-new/2024/11/amazon-vpc-lattice-elastic-container-service/?nc1=h_ls).
 
-![](assets/lattice-elb.drawio.png)
+![](./assets/lattice-elb.drawio.png)
 _Previously: ALB was required in front of ECS_
 
 #### Associating Multiple ECS Services
 Each Listener can have multiple ListenerRules like ALB.
 By setting path-based routing, you can associate multiple ECS services with one Lattice Service.
 
-![](assets/lattice-multi.drawio.png)
+![](./assets/lattice-multi.drawio.png)
 _Associating multiple ECS services with one Lattice Service_
 
 This improves manageability and potentially reduces costs.
@@ -130,7 +130,7 @@ https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.ht
 1. Client resolves `<service namespace>.<hosted-zone name>` to get backend Task IP addresses
 2. Access using those IP addresses
 
-![](assets/discovery.drawio.png)
+![](./assets/discovery.drawio.png)
 
 Unlike other methods, containers can communicate directly with target services.
 
@@ -144,7 +144,7 @@ It specializes in ECS-to-ECS communication and provides easy setup for reliabili
 An Envoy-based sidecar container ([Service Connect Agent](https://github.com/aws/amazon-ecs-service-connect-agent)) handles communication.
 It automatically handles Cloud Map registration, target discovery via Cloud Map, and access.
 
-![](assets/connect.drawio.png)
+![](./assets/connect.drawio.png)
 
 ### Side Note: Integration with Lambda and VPC Lattice
 
@@ -164,7 +164,7 @@ It's scheduled for deprecation by September 30, 2026. Two migration paths are re
 Like Service Connect, the sidecar handles various tasks.
 Since it's scheduled for deprecation, we'll omit detailed mechanism explanations.
 
-![](assets/appmesh.drawio.png)
+![](./assets/appmesh.drawio.png)
 
 # Comparison by Aspect
 
