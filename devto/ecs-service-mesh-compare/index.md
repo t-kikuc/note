@@ -7,7 +7,11 @@ tags: ["AWS", "ECS", "ServiceMesh", "VPCLattice"]
 
 _This article is translated from [my original article](https://zenn.dev/cadp/articles/ecs-service-mesh-compare) in Japanese._
 
+# Introduction
+
 This article compares five options for ECS service-to-service communication: **ALB, VPC Lattice, ECS Service Discovery, ECS Service Connect, and App Mesh (scheduled for deprecation)**.
+
+### Background
 
 Following the [App Mesh deprecation announcement](https://aws.amazon.com/blogs/containers/migrating-from-aws-app-mesh-to-amazon-ecs-service-connect/) and VPC Lattice enhancements at re:Invent 2024 ([ECS native integration](https://aws.amazon.com/jp/about-aws/whats-new/2024/11/amazon-vpc-lattice-elastic-container-service/), [TCP support](https://aws.amazon.com/about-aws/whats-new/2024/12/vpc-lattice-tcp-vpc-resources/)), I wanted to provide an overview of the future landscape of ECS interservice communication.
 
