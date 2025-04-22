@@ -1,15 +1,15 @@
 ---
-title: "Comparing 5 Methods of ECS Interservice Communication Methods Including VPC Lattice"
+title: "Comparing 5 Methods of ECS Interservice Communication Including VPC Lattice"
 published: false
-description: "Comparing 5 ways of service-to-service communication in ECS, including ALB, VPC Lattice, ECS Service Discovery, ECS Service Connect, and App Mesh."
+description: "A comprehensive comparison of five service-to-service communication methods in ECS: ALB, VPC Lattice, ECS Service Discovery, ECS Service Connect, and App Mesh."
 tags: ["AWS", "ECS", "Service Mesh", "VPC Lattice"]
 ---
 
-_This article translated from [my own article](https://zenn.dev/cadp/articles/ecs-service-mesh-compare) in Japanese._
+_This article is translated from [my original article](https://zenn.dev/cadp/articles/ecs-service-mesh-compare) in Japanese._
 
 This article compares five options for ECS service-to-service communication: **ALB, VPC Lattice, ECS Service Discovery, ECS Service Connect, and App Mesh (scheduled for deprecation)**.
 
-Following the [App Mesh deprecation announcement](https://aws.amazon.com/blogs/containers/migrating-from-aws-app-mesh-to-amazon-ecs-service-connect/) and VPC Lattice enhancements at re:Invent 2024 ([ECS native integration](https://aws.amazon.com/jp/about-aws/whats-new/2024/11/amazon-vpc-lattice-elastic-container-service/), [TCP support](https://aws.amazon.com/about-aws/whats-new/2024/12/vpc-lattice-tcp-vpc-resources/)), I wanted to organize the future landscape of ECS interservice communication.
+Following the [App Mesh deprecation announcement](https://aws.amazon.com/blogs/containers/migrating-from-aws-app-mesh-to-amazon-ecs-service-connect/) and VPC Lattice enhancements at re:Invent 2024 ([ECS native integration](https://aws.amazon.com/jp/about-aws/whats-new/2024/11/amazon-vpc-lattice-elastic-container-service/), [TCP support](https://aws.amazon.com/about-aws/whats-new/2024/12/vpc-lattice-tcp-vpc-resources/)), I wanted to provide an overview of the future landscape of ECS interservice communication.
 
 _This article is based on specifications as of December 18, 2024._
 
@@ -20,7 +20,7 @@ _This article is based on specifications as of December 18, 2024._
 | In short                        | Stable & versatile                 | Evolution of ALB that connects everything | Simple name resolution         | ECS-specific, easy & feature-rich | Complex & feature-rich mesh |
 | Release (GA)                    | 2016                               | 2023                                      | 2018                           | 2022                              | 2019                        |
 | Ease of setup & management      | Medium                             | Medium                                    | 👍👍Easy                     | 👍Relatively easy                | 👿👿Complex               |
-| 💰Cost                         | Time + LCU                         | Time + traffic + request count            | 👍👍Very cheap               | Sidecar                           | Sidecar                     |
+| 💰Cost                         | Time + LCU                         | Time + traffic + request count            | 👍👍Very cost-effective      | Sidecar                           | Sidecar                     |
 | 🔭Logs & Metrics               | 👍Supported                       | 👍Supported                              | 👿None                        | 👍Supported                      | 👍Supported                |
 | 🔭Tracing                      | 👿None                            | 👿None                                   | 👿None                        | 👿None                           | 👍Supported                |
 | 🛡️Health Check               | 👍Supported                       | 👍Supported                              | 👍Supported (container level) | 👍Partially supported[^1]        | 👍Supported                |
@@ -76,8 +76,8 @@ _Example: `/web` routes to service-web, `/app` routes to service-app_
 
 ## 2. VPC Lattice
 
-VPC Lattice is an application connectivity service that abstracts ALB, GA'd in March 2023.
-It can connect EC2, EKS, and Lambda, with cross-VPC and cross-account communication as its strengths.
+VPC Lattice is an application connectivity service that abstracts ALB functionality, which became GA in March 2023.
+It can connect EC2, EKS, and Lambda, with cross-VPC and cross-account communication as its key strengths.
 
 ### Connection Method
 
@@ -117,7 +117,7 @@ As [discussed later](#cost-case-by-case), there's a time-based charge per Lattic
 ## 3. ECS Service Discovery
 
 ECS Service Discovery provides a simple name resolution mechanism.
-It lacks reliability and observability features but is simple and cost-effective.
+While it lacks reliability and observability features, it offers simplicity and cost-effectiveness.
 
 https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html
 
@@ -132,8 +132,8 @@ Unlike other methods, containers can communicate directly with target services.
 
 ## 4. ECS Service Connect
 
-Service Connect, launched in November 2022, is a hybrid of ELB + Service Discovery + App Mesh.
-It specializes in ECS->ECS communication and can easily set up reliability and observability features.
+Service Connect, launched in November 2022, combines features from ELB, Service Discovery, and App Mesh.
+It specializes in ECS-to-ECS communication and provides easy setup for reliability and observability features.
 
 ### Connection Method
 
@@ -151,7 +151,7 @@ While this might be challenging due to architectural and conceptual reasons, if 
 
 App Mesh is a feature-rich service mesh service consisting of [1]managed Envoy control plane and [2]Envoy sidecar containers.
 
-It's announced to be deprecated by September 30, 2026. Two migration paths are recommended:
+It's scheduled for deprecation by September 30, 2026. Two migration paths are recommended:
 * [Migration to Service Connect](https://aws.amazon.com/blogs/containers/migrating-from-aws-app-mesh-to-amazon-ecs-service-connect/)
 * [Migration to VPC Lattice](https://aws.amazon.com/blogs/containers/migrating-from-aws-app-mesh-to-amazon-vpc-lattice/)
 
@@ -169,15 +169,15 @@ It's scheduled for deprecation and is generally powerful except for its complexi
 
 ## Cost💰
 
-|      | ALB        | VPC Lattice                    | 👑ECS Service Discovery | ECS Service Connect | App Mesh |
-| ---- | ---------- | ------------------------------ | ------------------------ | ------------------- | -------- |
-| Cost | Time + LCU | Time + traffic + request count | 👍👍Very cheap         | Sidecar             | Sidecar  |
+|      | ALB        | VPC Lattice                    | 👑ECS Service Discovery  | ECS Service Connect | App Mesh |
+| ---- | ---------- | ------------------------------ | ------------------------- | ------------------- | -------- |
+| Cost | Time + LCU | Time + traffic + request count | 👍👍Very cost-effective | Sidecar             | Sidecar  |
 
-* Service Discovery is extremely cheap as it doesn't require sidecars
-* ALB requires complex cost calculation based on LCU
+* Service Discovery is extremely cost-effective as it doesn't require sidecars
+* ALB requires complex cost calculations based on LCU
 * VPC Lattice has time-based charges per Lattice Service
-  * Time-based charges alone cost about $23.4 per month per Service (\$0.0325/h x 24 x 30)
-  * For cost efficiency, it's better to associate multiple ECS services with one Lattice Service rather than creating a Lattice Service per ECS service (similar to ALB)
+  * Time-based charges alone cost approximately $23.4 per month per Service (\$0.0325/h x 24 x 30)
+  * For cost efficiency, it's better to associate multiple ECS services with one Lattice Service rather than creating a separate Lattice Service per ECS service (similar to ALB)
 * Service Connect charges for sidecar resources
   * With minimum recommended specs for x86 Fargate, it costs about $9.1 per task per month (\$0.05056/h x 0.25 x 24 x 30)[^2]
   * Of course, larger sizes may be needed depending on traffic
@@ -192,10 +192,10 @@ It's scheduled for deprecation and is generally powerful except for its complexi
 | Logs & Metrics | 👍Supported             | 👍Supported | 👿None               | 👍Supported        | 👍Supported |
 | Tracing        | 👿None (ID is assigned) | 👿None      | 👿None               | 👿None             | 👍Supported |
 
-* Service Discovery is conceptually designed without observability, and this is unlikely to change
-* Tracing is App Mesh's specialty, with Envoy sidecars able to send data to X-Ray or Datadog
+* Service Discovery is designed without observability features, and this is unlikely to change
+* Tracing is App Mesh's specialty, with Envoy sidecars capable of sending data to X-Ray or Datadog
 * Service Connect, being Envoy-based, might support tracing in the future
-  * There are requests for this
+  * There are feature requests for this
     https://github.com/aws/containers-roadmap/issues/2369
 * ALB adds `X-Amzn-Trace-Id` to request headers, but this alone doesn't enable rich distributed tracing
 
@@ -225,12 +225,12 @@ https://aws.amazon.com/about-aws/whats-new/2020/11/aws-app-mesh-introduces-circu
 
 ※ ECS [deployment types](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeploymentController.html) are `ECS`(rolling update), `CODE_DEPLOY`(Blue/Green), and `EXTERNAL`([external deployment](https://dev.to/t-kikuc/ecs-external-deployment-taskset-complete-guide-21dl)).
 
-* ALB is the easiest to handle. It's well integrated with ECS and has few constraints
-* VPC Lattice can do Canary like ALB by manipulating ListenerRules
-  * When placing Internal-ALB, it's still ALB, so it supports all deployment types and enables flexible deployment
-  * However, with native ECS integration, only `ECS` deployment type can be selected
-* Service Discovery supports all deployment types but lacks flexible routing control, making Canary difficult
-* Service Connect can only use `ECS` deployment type, limiting deployment flexibility
+* ALB is the most straightforward to handle. It's well integrated with ECS and has minimal constraints
+* VPC Lattice can perform Canary deployments similar to ALB by manipulating ListenerRules
+  * When using Internal-ALB, it's still ALB, so it supports all deployment types and enables flexible deployment
+  * However, with native ECS integration, only the `ECS` deployment type can be selected
+* Service Discovery supports all deployment types but lacks flexible routing control, making Canary deployments challenging
+* Service Connect can only use the `ECS` deployment type, limiting deployment flexibility
 
 ## Connection Breadth🐙
 
@@ -240,11 +240,11 @@ https://aws.amazon.com/about-aws/whats-new/2020/11/aws-app-mesh-introduces-circu
 | Cross-VPC                    | 👍Possible (requires VPC Peering) | 👍👍Specialty | 👿Not possible       | 👍Possible         | 👍Possible |
 | Cross-Account                | 👍Possible (requires VPC Peering) | 👍👍Specialty | 👿Not possible       | 👿Not possible     | 👍Possible |
 
-* **This is VPC Lattice's identity and its strongest area**
-* ALB is a regular VPC resource, requiring VPC Peering etc. for cross-VPC/account communication
+* **This is VPC Lattice's core strength and unique selling point**
+* ALB is a standard VPC resource, requiring VPC Peering or something for cross-VPC/account communication
 * Service Discovery cannot cross VPCs or accounts, but this helps maintain its simplicity
-* Service Connect is ECS-specific and most limited
-  * A separate method is needed for "initial entry point from outside to ECS"
+* Service Connect is ECS-specific and has the most limitations
+  * A separate method is needed for the "initial entry point from outside to ECS"
   * Cross-account communication might be supported in the future
     https://github.com/aws/containers-roadmap/issues/2148
 
