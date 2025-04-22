@@ -2,7 +2,7 @@
 title: "Comparing 5 Methods of ECS Interservice Communication Including VPC Lattice"
 published: false
 description: "A comprehensive comparison of five service-to-service communication methods in ECS: ALB, VPC Lattice, ECS Service Discovery, ECS Service Connect, and App Mesh."
-tags: ["AWS", "ECS", "Service Mesh", "VPC Lattice"]
+tags: ["AWS", "ECS", "ServiceMesh", "VPCLattice"]
 ---
 
 _This article is translated from [my original article](https://zenn.dev/cadp/articles/ecs-service-mesh-compare) in Japanese._
